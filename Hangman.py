@@ -3,7 +3,7 @@ import random
 
 my_list = []
 current_word = ""
-
+correct_letters = []
 
 def loadWordList(category):
     with open(category, "rb") as f:
@@ -17,7 +17,14 @@ def checkForWinner():
 
 
 def checkForLetter(letter):
-    return
+    if current_word.count(letter) == 0:
+        print ""
+        print "The letter " + letter + " was not found.  Try Again!"
+        print ""
+    else:
+        correct_letters.append(letter)
+
+    generateWordUI()
 
 
 def getCurrentWord():
@@ -34,6 +41,34 @@ def waitForUserInput():
     if not answer.isalpha():
         print "You must enter only letters."
         waitForUserInput()
+    checkForLetter(answer)
+
+
+def generateWordUI():
+    wordUI = ""
+    print ""
+    print "Your Hangman Word Is Below.  Can You Guess The Word?"
+    print ""
+    wordLen = len(current_word)
+    for w in current_word:
+        if correct_letters.count(w) > 0:
+            wordUI = wordUI + w.upper() + " "
+        else:
+            wordUI = wordUI + "_" + " "
+    print wordUI
+    print ""
+    if wordUI.count("_") == 0:
+        print ""
+        print "Congratulations!  You Solved The Word!"
+        print ""
+        resetHangman()
+    waitForUserInput()
+
+
+def resetHangman():
+    del correct_letters[:]
+    del my_list[:]
+    startHangman()
 
 
 def startHangman():
@@ -41,6 +76,6 @@ def startHangman():
     global current_word
     my_list = loadWordList("library/animals.words")
     current_word = getCurrentWord()
-    waitForUserInput()
+    generateWordUI()
 
 startHangman()
