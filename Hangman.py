@@ -74,7 +74,7 @@ def resetHangman():
 def startHangman():
     global my_list
     global current_word
-    my_list = loadWordList("library/animals.words")
+    my_list = loadWordList("library/misc.words")
     current_word = getCurrentWord()
     generateWordUI()
 
